@@ -7,17 +7,30 @@ export default class Campaign {
   @observable _toDate = Date.now();
   @observable details = new CampaignDetails(this);
 
-  constructor(api, id) {
+  constructor(api, uiStore, id) {
     this.id = id;
     this.setToDate(this.fromDate.getDate() + 5);
-    reaction(() => this.asJSON, api.update);
+    this.uiStore = uiStore;
+    reaction(() => this.asJSON, json => {
+      if (this.uiStore) {
+        this.uiStore.startCampaignUpdate(this.id);
+      }
+      api.update(json)
+        .then(this.onUpdateCompleted, this.onUpdateCompleted);
+    });
+  }
+
+  onUpdateCompleted = () => {
+    if (this.uiStore) {
+      this.uiStore.endCampaignUpdate(this.id);
+    }
   }
 
   @action setName(value) {
     this.name = value;
   }
 
-  @action setToDate(value: number) {
+  @action setToDate(value) {
     this._toDate = new Date(this._toDate).setDate(value);
   }
 

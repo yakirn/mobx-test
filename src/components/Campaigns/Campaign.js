@@ -1,8 +1,11 @@
 import React from 'react';
-import {observer} from 'mobx-react';
+import {computed} from 'mobx';
+import {observer, inject} from 'mobx-react';
 import CampaignDetails from './CampaignDetails';
 import style from './style.css';
 
+
+@inject('uiStore')
 @observer
 export default class Campaign extends React.Component {
 
@@ -22,10 +25,15 @@ export default class Campaign extends React.Component {
     e.stopPropagation();
   };
 
+  @computed get isCampaignUpdating() {
+    return this.props.uiStore.isCampaignUpdating(this.props.model.id);
+  }
+
   render() {
     const {name, fromDate, toDate} = this.props.model;
     return (
       <div className={style.container}>
+        <div className={style.curtain} style={{display: this.isCampaignUpdating ? 'block' : 'none'}}/>
         <div className={style.propertiesRow}>
           <div onClick={this.handleNameClick}>{name}</div>
           <div>{fromDate.toDateString()}</div> - <div onClick={this.handleToDateClick}>{toDate.toDateString()}</div>
