@@ -1,0 +1,27 @@
+.flexRow {
+  display: flex;
+  flex-direction: row;
+}
+.container{
+  display: flex;
+  flex-direction: column;
+  border-bottom: 3px solid black;
+  margin-top: 1em;
+  padding-bottom: 1em; 
+}
+.properties-row{
+  composes: flexRow;
+  justify-content: space-between;
+}
+.buttons-row{
+  composes: flexRow;
+  justify-content: flex-end;
+}
+.details-row{
+  composes: flexRow;
+  justify-content: center;
+}
+.details-buttons-row{
+  composes: flexRow;  
+  justify-content: center;
+}

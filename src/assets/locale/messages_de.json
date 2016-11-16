@@ -1,0 +1,5 @@
+{
+  "root.title": "Wix Stack React Anwendungsbeispiel",
+  "counter.apples": "{{count}} Apfel",
+  "counter.apples_plural": "{{count}} Äpfel"
+}
